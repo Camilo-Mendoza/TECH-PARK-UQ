@@ -47,6 +47,12 @@ public class Zona {
         return visitantesActuales >= capacidadMaxima;
     }
 
+    public ListaEnlazada<Atraccion> getAtracciones() {
+        return atracciones;
+    }
+
+   
 }
+
 
    
