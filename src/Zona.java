@@ -30,4 +30,11 @@ public class Zona {
         atracciones.insertar(atraccion);
     }
 
+    public void removerAtraccion(Atraccion atraccion) {
+        if (atraccion == null) {
+            throw new IllegalArgumentException("La atracción no puede ser nula.");
+        }
+        atracciones.eliminar(atraccion);
+    }
+
    
