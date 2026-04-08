@@ -11,7 +11,13 @@ public abstract class Usuario {
         this.contrasena = contrasena;
     }
 
-    public abstract boolean login();
+    public boolean login(String email, String contrasena) {
+        if (email == null || contrasena == null) {
+            return false;
+        }
+
+        return this.email.equalsIgnoreCase(email.trim()) && this.contrasena.equals(contrasena);
+    }
 
     public abstract void logout();
 }
