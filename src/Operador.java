@@ -16,5 +16,13 @@ public class Operador {
             atraccion.setMotivoCierre(motivo);
         }
     }
+    //Se registra una revisión técnica en la atracción, lo que puede incluir la actualización de su estado si se detectan problemas durante la revisión.
+    public void registrarRevisionTecnica(Atraccion atraccion) {
+        if (atraccion == null) {
+            throw new IllegalArgumentException("Atraccion no puede ser nula.");
+        }
+
+        atraccion.registrarRevisionTecnica();
+    }
     
 }
