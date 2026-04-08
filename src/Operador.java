@@ -24,5 +24,14 @@ public class Operador {
 
         atraccion.registrarRevisionTecnica();
     }
+     //Se procesa al siguiente visitante en la fila de una atracción, lo que implica verificar su ticket, actualizar su ubicación y gestionar su acceso a la atracción.
+    public Visitante procesarSiguienteEnFila(Atraccion atraccion) {
+        if (atraccion == null) {
+            throw new IllegalArgumentException("Atraccion no puede ser nula.");
+        }
+
+        return atraccion.procesarSiguienteEnFila();
+    }
     
 }
+
