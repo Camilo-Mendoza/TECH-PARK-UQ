@@ -43,8 +43,10 @@ public class Zona {
         operadores.insertar(operador);
     }
 
-   
-}
+    public boolean estaLlena() {
+        return visitantesActuales >= capacidadMaxima;
+    }
 
+}
 
    
