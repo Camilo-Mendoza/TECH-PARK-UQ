@@ -1,8 +1,8 @@
 public class Administrador extends Usuario {
-
     public Administrador(String id, String nombre, String email, String contrasena) {
         super(id, nombre, email, contrasena);
     }
+
     // Métodos específicos del administrador
     public Zona crearZona(String nombre) {
         if (nombre == null || nombre.isBlank()) {
