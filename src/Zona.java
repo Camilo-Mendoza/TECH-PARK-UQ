@@ -50,8 +50,46 @@ public class Zona {
     public ListaEnlazada<Atraccion> getAtracciones() {
         return atracciones;
     }
+     // Getters y Setters
+    public String getId() {
+        return id;
+    }
 
-   
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getCapacidadMaxima() {
+        return capacidadMaxima;
+    }
+
+    public void setCapacidadMaxima(int capacidadMaxima) {
+        this.capacidadMaxima = capacidadMaxima;
+    }
+
+    public int getVisitantesActuales() {
+        return visitantesActuales;
+    }
+
+    public void setVisitantesActuales(int visitantesActuales) {
+        this.visitantesActuales = visitantesActuales;
+    }
+
+    public ListaEnlazada<Operador> getOperadores() {
+        return operadores;
+    }
+
+    public void setOperadores(ListaEnlazada<Operador> operadores) {
+        this.operadores = operadores;
+    } 
 }
 
 
