@@ -36,5 +36,15 @@ public class Zona {
         }
         atracciones.eliminar(atraccion);
     }
+   public void asignarOperador(Operador operador) {
+        if (operador == null) {
+            throw new IllegalArgumentException("El operador no puede ser nulo.");
+        }
+        operadores.insertar(operador);
+    }
+
+   
+}
+
 
    
