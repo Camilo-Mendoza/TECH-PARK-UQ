@@ -22,5 +22,12 @@ public class Zona {
     private static String generarId() {
         return "ZONA_" + System.currentTimeMillis();
     }
-/
+// Métodos de gestión de atracciones y operadores
+    public void agregarAtraccion(Atraccion atraccion) {
+        if (atraccion == null) {
+            throw new IllegalArgumentException("La atracción no puede ser nula.");
+        }
+        atracciones.insertar(atraccion);
+    }
 
+   
