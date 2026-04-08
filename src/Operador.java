@@ -32,6 +32,14 @@ public class Operador {
 
         return atraccion.procesarSiguienteEnFila();
     }
-    
+     //Se valida el acceso de un visitante a una atracción, lo que implica verificar si cumple con los requisitos de edad, estatura y otros criterios establecidos para esa atracción.
+    public boolean validarAcceso(Visitante visitante, Atraccion atraccion) {
+        if (visitante == null || atraccion == null) {
+            throw new IllegalArgumentException("Visitante y atracción no pueden ser nulos.");
+        }
+
+        return atraccion.validarAcceso(visitante);
+    }
 }
+
 
