@@ -51,6 +51,16 @@ public class Reporte {
                 reporte.append(" - ").append(atraccion.getNombre()).append("\n");
             }
         }
+// Agrega la sección de tiempos promedio de espera
+        reporte.append("Tiempos promedio de espera:\n");
+        if (tiemposPromedioEspera.isEmpty()) {
+            reporte.append(" - Ninguno\n");
+        } else {
+            for (Map.Entry<String, Double> entry : tiemposPromedioEspera.entrySet()) {
+                reporte.append(" - ").append(entry.getKey()).append(": ")
+                        .append(String.format("%.2f", entry.getValue())).append(" minutos\n");
+            }
+        }
 
-}
+    }
 
