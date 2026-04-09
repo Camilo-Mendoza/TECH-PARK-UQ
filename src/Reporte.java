@@ -73,6 +73,61 @@ public class Reporte {
         }
         return reporte.toString();
     }
+// Getters y Setters
+    public LocalDate getFecha() {
+        return fecha;
+    }
 
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public double getIngresosDiarios() {
+        return ingresosDiarios;
+    }
+
+    public void setIngresosDiarios(double ingresosDiarios) {
+        this.ingresosDiarios = ingresosDiarios;
+    }
+
+    public List<Atraccion> getAtraccionesMasVisitadas() {
+        return atraccionesMasVisitadas;
+    }
+
+    public void setAtraccionesMasVisitadas(List<Atraccion> atraccionesMasVisitadas) {
+        this.atraccionesMasVisitadas = atraccionesMasVisitadas;
+    }
+
+    public Map<String, Double> getTiemposPromedioEspera() {
+        return tiemposPromedioEspera;
+    }
+
+    public void setTiemposPromedioEspera(Map<String, Double> tiemposPromedioEspera) {
+        this.tiemposPromedioEspera = tiemposPromedioEspera;
+    }
+
+    public int getCierresPorClima() {
+        return cierresPorClima;
+    }
+
+    public void setCierresPorClima(int cierresPorClima) {
+        this.cierresPorClima = cierresPorClima;
+    }
+
+    public int getAlertasMantenimiento() {
+        return alertasMantenimiento;
+    }
+
+    public void setAlertasMantenimiento(int alertasMantenimiento) {
+        this.alertasMantenimiento = alertasMantenimiento;
+    }
+
+    public List<Atraccion> getAtraccionesConIncidentes() {
+        return atraccionesConIncidentes;
+    }
+
+    public void setAtraccionesConIncidentes(List<Atraccion> atraccionesConIncidentes) {
+        this.atraccionesConIncidentes = atraccionesConIncidentes;
+    }
     }
 
