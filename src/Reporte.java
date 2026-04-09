@@ -23,6 +23,18 @@ public class Reporte {
         this.alertasMantenimiento = 0;
         this.atraccionesConIncidentes = new ArrayList<>();
     }
+// Constructor completo para inicializar todos los campos del reporte
+    public Reporte(LocalDate fecha, double ingresosDiarios, List<Atraccion> atraccionesMasVisitadas,
+                   Map<String, Double> tiemposPromedioEspera, int cierresPorClima,
+                   int alertasMantenimiento, List<Atraccion> atraccionesConIncidentes) {
+        this.fecha = fecha;
+        this.ingresosDiarios = ingresosDiarios;
+        this.atraccionesMasVisitadas = atraccionesMasVisitadas != null ? atraccionesMasVisitadas : new ArrayList<>();
+        this.tiemposPromedioEspera = tiemposPromedioEspera != null ? tiemposPromedioEspera : new HashMap<>();
+        this.cierresPorClima = cierresPorClima;
+        this.alertasMantenimiento = alertasMantenimiento;
+        this.atraccionesConIncidentes = atraccionesConIncidentes != null ? atraccionesConIncidentes : new ArrayList<>();
+    }
 
 }
 
