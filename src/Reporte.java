@@ -61,6 +61,18 @@ public class Reporte {
                         .append(String.format("%.2f", entry.getValue())).append(" minutos\n");
             }
         }
+// Agrega la sección de atracciones con incidentes
+        reporte.append("Atracciones con incidentes: ");
+        if (atraccionesConIncidentes.isEmpty()) {
+            reporte.append("Ninguna\n");
+        } else {
+            reporte.append("\n");
+            for (Atraccion atraccion : atraccionesConIncidentes) {
+                reporte.append(" - ").append(atraccion.getNombre()).append("\n");
+            }
+        }
+        return reporte.toString();
+    }
 
     }
 
