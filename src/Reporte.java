@@ -35,6 +35,22 @@ public class Reporte {
         this.alertasMantenimiento = alertasMantenimiento;
         this.atraccionesConIncidentes = atraccionesConIncidentes != null ? atraccionesConIncidentes : new ArrayList<>();
     }
+// Método para generar un reporte en formato de texto
+    public String generar() {
+        StringBuilder reporte = new StringBuilder();
+        reporte.append("Reporte del día: ").append(fecha).append("\n");
+        reporte.append("Ingresos diarios: $").append(String.format("%.2f", ingresosDiarios)).append("\n");
+        reporte.append("Cierres por clima: ").append(cierresPorClima).append("\n");
+        reporte.append("Alertas de mantenimiento: ").append(alertasMantenimiento).append("\n");
+        reporte.append("Atracciones más visitadas: ");
+        if (atraccionesMasVisitadas.isEmpty()) {
+            reporte.append("Ninguna\n");
+        } else {
+            reporte.append("\n");
+            for (Atraccion atraccion : atraccionesMasVisitadas) {
+                reporte.append(" - ").append(atraccion.getNombre()).append("\n");
+            }
+        }
 
 }
 
