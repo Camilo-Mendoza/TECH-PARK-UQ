@@ -39,14 +39,14 @@ public class Administrador extends Usuario {
     public GrafoParque consultarGrafo() {
         return new GrafoParque();
     }
-
+// Método para gestionar empleados, que podría incluir operadores y otros administradores
     public void gestionarEmpleado(Usuario usuario) {
         if (usuario == null) {
             throw new IllegalArgumentException("El usuario no puede ser nulo.");
         }
         System.out.println("Gestionando empleado: " + usuario.getNombre());
     }
-
+// Método para consultar el árbol de atracciones, que podría ser útil para la gestión y organización del parque
     public ABBAtraccion consultarArbolAtracciones() {
         return new ABBAtraccion();
     }
