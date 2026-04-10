@@ -1,5 +1,9 @@
 import java.time.LocalDate;
 
+/**
+ * Representa un ticket de ingreso al parque para un visitante.
+ * Incluye información de tipo, precio, fecha de compra y estado de validez.
+ */
 public class Ticket {
     private String id;
     private TipoTicket tipo;
@@ -8,6 +12,15 @@ public class Ticket {
     private boolean activo;
     private Visitante visitante;
 
+    /**
+     * Crea un ticket y lo deja activo por defecto.
+     *
+     * @param id identificador del ticket
+     * @param tipo tipo de ticket
+     * @param precio precio del ticket
+     * @param fechaCompra fecha de compra
+     * @param visitante visitante asociado al ticket
+     */
     public Ticket(String id, TipoTicket tipo, double precio, LocalDate fechaCompra, Visitante visitante) {
         this.id = id;
         this.tipo = tipo;
@@ -17,6 +30,9 @@ public class Ticket {
         this.visitante = visitante;
     }
 
+    /**
+     * Desactiva el ticket para impedir su uso posterior.
+     */
     public void desactivar() {
         this.activo = false;
     }
@@ -67,5 +83,35 @@ public class Ticket {
 
     public void setVisitante(Visitante visitante) {
         this.visitante = visitante;
+    }
+
+    /**
+     * Calcula el valor del descuento aplicable según el tipo de ticket.
+     *
+     * @return valor del descuento sobre el precio actual
+     */
+    public double calcularDescuento() {
+        if (tipo == null) {
+            return 0.0;
+        }
+
+        switch (tipo) {
+            case FAMILIAR:
+                return precio * 0.15;
+            case FAST_PASS:
+                return 0.0;
+            case GENERAL:
+            default:
+                return 0.0;
+        }
+    }
+
+    /**
+     * Verifica si el ticket puede considerarse válido para operar en el sistema.
+     *
+     * @return true si está activo y tiene visitante y fecha de compra
+     */
+    public boolean esValido() {
+        return activo && visitante != null && fechaCompra != null;
     }
 }
