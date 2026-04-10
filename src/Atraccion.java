@@ -289,6 +289,46 @@ public class Atraccion {
         return true;
     }
 
-   
+    /**
+     * Consulta la posición actual de un visitante dentro de la cola virtual.
+     *
+     * @param visitante visitante a consultar
+     * @return posición en cola (inicia en 1) o -1 si no está en la fila
+     */
+    public int obtenerPosicionEnFila(Visitante visitante) {
+        if (cola == null || visitante == null) {
+            return -1;
+        }
+        return cola.posicionDe(visitante);
+    }
+
+    /**
+     * Procesa al siguiente visitante en la cola según prioridad.
+     * Si se atiende un visitante, actualiza contador acumulado y tiempo de espera.
+     *
+     * @return visitante atendido o null si no hay disponibilidad o la cola está vacía
+     */
+    public Visitante procesarSiguienteEnFila() {
+        if (!estaDisponible() || cola == null) {
+            return null;
+        }
+
+        Visitante siguiente = cola.desencolar();
+        if (siguiente != null) {
+            incrementarContador();
+        }
+        actualizarTiempoEspera();
+        return siguiente;
+    }
+
+    /**
+     * Registra una revisión técnica satisfactoria.
+     * Reinicia el contador de mantenimiento y reactiva la atracción.
+     */
+    public void registrarRevisionTecnica() {
+        this.contadorVisitantes = 0;
+        cambiarEstado(EstadoAtraccion.ACTIVA, MotivosCierre.MANTENIMIENTO);
+    }
+
 }
 
