@@ -2,6 +2,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 public class Visitante extends Usuario {
     // Atributos
@@ -80,13 +84,75 @@ public class Visitante extends Usuario {
         return -1;
     }
 
-    // Método para calcular ruta
+    // Método para calcular ruta con el algoritmo de Dijkstra
     public List<Nodo> calcularRuta(Nodo destino) {
         List<Nodo> ruta = new ArrayList<>();
-        if (ubicacionActual != null && destino != null) {
-            // Implementar algoritmo de búsqueda de ruta
-            // Por ahora retorna lista vacía
+        if (ubicacionActual == null || destino == null) {
+            return ruta;
         }
+
+        if (ubicacionActual.equals(destino)) {
+            ruta.add(ubicacionActual);
+            return ruta;
+        }
+
+        Map<Nodo, Double> distancias = new HashMap<>();
+        Map<Nodo, Nodo> previos = new HashMap<>();
+        Set<Nodo> visitados = new HashSet<>();
+
+        PriorityQueue<Nodo> colaPrioridad = new PriorityQueue<>(
+                (a, b) -> Double.compare(
+                        distancias.getOrDefault(a, Double.POSITIVE_INFINITY),
+                        distancias.getOrDefault(b, Double.POSITIVE_INFINITY)
+                )
+        );
+
+        distancias.put(ubicacionActual, 0.0);
+        colaPrioridad.offer(ubicacionActual);
+
+        while (!colaPrioridad.isEmpty()) {
+            Nodo actual = colaPrioridad.poll();
+
+            if (!visitados.add(actual)) {
+                continue;
+            }
+
+            if (actual.equals(destino)) {
+                break;
+            }
+
+            for (Nodo vecino : actual.getVecinos()) {
+                if (visitados.contains(vecino)) {
+                    continue;
+                }
+
+                double nuevaDistancia = distancias.get(actual) + 1.0;
+                double distanciaActual = distancias.getOrDefault(vecino, Double.POSITIVE_INFINITY);
+
+                if (nuevaDistancia < distanciaActual) {
+                    distancias.put(vecino, nuevaDistancia);
+                    previos.put(vecino, actual);
+                    colaPrioridad.offer(vecino);
+                }
+            }
+        }
+
+        if (!distancias.containsKey(destino)) {
+            return ruta;
+        }
+
+        LinkedList<Nodo> camino = new LinkedList<>();
+        Nodo paso = destino;
+
+        while (paso != null) {
+            camino.addFirst(paso);
+            paso = previos.get(paso);
+        }
+
+        if (!camino.isEmpty() && camino.getFirst().equals(ubicacionActual)) {
+            ruta.addAll(camino);
+        }
+
         return ruta;
     }
 
