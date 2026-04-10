@@ -3,7 +3,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * Representa una atracción del parque con sus reglas de operación,
+ * seguridad, disponibilidad y mantenimiento preventivo.
+ */
 public class Atraccion {
+    
     private String id;
     private String nombre;
     private TipoAtraccion tipo;
@@ -18,10 +23,27 @@ public class Atraccion {
     private Zona zona;
     private ColaPrioridad<Visitante> cola;
 
+    /**
+     * Crea una atracción con valores por defecto para capacidad y restricciones.
+     *
+     * @param nombre nombre de la atracción
+     */
     public Atraccion(String nombre) {
         this("ATR_" + System.currentTimeMillis(), nombre, TipoAtraccion.OTRA, 20, 0.0, 0, 0.0, null);
     }
 
+    /**
+     * Crea una atracción con configuración completa.
+     *
+     * @param id identificador único
+     * @param nombre nombre de la atracción
+     * @param tipo tipo de atracción
+     * @param capacidadMaxPorCiclo capacidad máxima por ciclo
+     * @param alturaMinima altura mínima requerida
+     * @param edadMinima edad mínima requerida
+     * @param costoAdicional costo adicional de acceso
+     * @param zona zona del parque asociada
+     */
     public Atraccion(String id,
                      String nombre,
                      TipoAtraccion tipo,
@@ -148,5 +170,53 @@ public class Atraccion {
     public void setCola(ColaPrioridad<Visitante> cola) {
         this.cola = cola;
     }
+
+    /**
+     * Cambia el estado operativo de la atracción.
+     * Si se establece en cerrada, registra el motivo de cierre.
+     *
+     * @param estado nuevo estado de la atracción
+     * @param motivo motivo del cambio cuando aplica cierre
+     */
+    public void cambiarEstado(EstadoAtraccion estado, MotivosCierre motivo) {
+        if (estado == null) {
+            throw new IllegalArgumentException("El estado no puede ser nulo.");
+        }
+
+        this.estado = estado;
+
+        if (estado == EstadoAtraccion.CERRADA) {
+            this.motivoCierre = (motivo != null) ? motivo : MotivosCierre.OTRO;
+        } else {
+            this.motivoCierre = MotivosCierre.SIN_MOTIVO;
+        }
+    }
+
+    /**
+     * Incrementa el contador acumulado de visitantes y recalcula reglas derivadas
+     * como mantenimiento preventivo y tiempo estimado de espera.
+     */
+    public void incrementarContador() {
+        this.contadorVisitantes++;
+        verificarMantenimientoPreventivo();
+        actualizarTiempoEspera();
+    }
+
+    /**
+     * Verifica si la atracción alcanzó el umbral de mantenimiento preventivo.
+     * Al llegar a 500 visitantes acumulados cambia el estado a mantenimiento.
+     *
+     * @return true si se activó mantenimiento, false en caso contrario
+     */
+    public boolean verificarMantenimientoPreventivo() {
+        if (this.contadorVisitantes >= 500) {
+            this.estado = EstadoAtraccion.EN_MANTENIMIENTO;
+            this.motivoCierre = MotivosCierre.REVISION_TECNICA;
+            return true;
+        }
+        return false;
+    }
+
+   
 }
 
