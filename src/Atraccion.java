@@ -255,5 +255,40 @@ public class Atraccion {
         return visitante.getEdad() >= this.edadMinima
                 && visitante.getEstatura() >= this.alturaMinima;
     }
+
+    /**
+     * Valida si un visitante puede acceder a la atracción considerando
+     * disponibilidad operativa y cumplimiento de requisitos de seguridad.
+     *
+     * @param visitante visitante a evaluar
+     * @return true si el acceso es permitido, false en caso contrario
+     */
+    public boolean validarAcceso(Visitante visitante) {
+        return visitante != null && estaDisponible() && cumpleRequisitos(visitante);
+    }
+
+    /**
+     * Agrega un visitante a la cola virtual de la atracción.
+     * Asigna prioridad alta para ticket Fast-Pass y prioridad normal para los demás.
+     *
+     * @param visitante visitante que solicita ingreso a la fila
+     * @return true si se encola correctamente, false si no cumple condiciones de acceso
+     */
+    public boolean agregarAFila(Visitante visitante) {
+        if (!validarAcceso(visitante) || cola == null) {
+            return false;
+        }
+
+        int prioridad = 2;
+        if (visitante.getTicket() != null && visitante.getTicket().getTipo() == TipoTicket.FAST_PASS) {
+            prioridad = 1;
+        }
+
+        cola.encolar(visitante, prioridad);
+        actualizarTiempoEspera();
+        return true;
+    }
+
+   
 }
 
