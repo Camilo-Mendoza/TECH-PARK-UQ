@@ -217,6 +217,43 @@ public class Atraccion {
         return false;
     }
 
-   
+    /**
+     * Actualiza el tiempo de espera estimado según personas en cola y capacidad por ciclo.
+     * La estimación base considera 5 minutos por ciclo.
+     */
+    public void actualizarTiempoEspera() {
+        if (cola == null) {
+            this.tiempoEsperaEstimado = 0;
+            return;
+        }
+
+        int personasEnFila = cola.tamano();
+        int ciclos = (int) Math.ceil((double) personasEnFila / Math.max(1, capacidadMaxPorCiclo));
+        this.tiempoEsperaEstimado = ciclos * 5;
+    }
+
+    /**
+     * Indica si la atracción puede operar y recibir visitantes.
+     *
+     * @return true cuando el estado es ACTIVA, false en otro caso
+     */
+    public boolean estaDisponible() {
+        return this.estado == EstadoAtraccion.ACTIVA;
+    }
+
+    /**
+     * Valida si un visitante cumple los requisitos mínimos de ingreso
+     * definidos para la atracción.
+     *
+     * @param visitante visitante a validar
+     * @return true si cumple edad y altura mínima, false en caso contrario
+     */
+    public boolean cumpleRequisitos(Visitante visitante) {
+        if (visitante == null) {
+            return false;
+        }
+        return visitante.getEdad() >= this.edadMinima
+                && visitante.getEstatura() >= this.alturaMinima;
+    }
 }
 
