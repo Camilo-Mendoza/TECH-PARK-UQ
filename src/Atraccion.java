@@ -62,7 +62,7 @@ public class Atraccion {
         this.contadorVisitantes = 0;
         this.tiempoEsperaEstimado = 0;
         this.estado = EstadoAtraccion.ACTIVA;
-        this.motivoCierre = MotivosCierre.SIN_MOTIVO;
+        this.motivoCierre = MotivosCierre.OTRO;
         this.zona = zona;
         this.cola = new ColaPrioridad<>();
     }
@@ -188,7 +188,7 @@ public class Atraccion {
         if (estado == EstadoAtraccion.CERRADA) {
             this.motivoCierre = (motivo != null) ? motivo : MotivosCierre.OTRO;
         } else {
-            this.motivoCierre = MotivosCierre.SIN_MOTIVO;
+            this.motivoCierre = MotivosCierre.OTRO;
         }
     }
 
