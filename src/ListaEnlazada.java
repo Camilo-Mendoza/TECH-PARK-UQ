@@ -82,4 +82,45 @@ public class ListaEnlazada<T> {
         return false;
     }
 
+    /**
+     * Obtiene la cantidad de elementos almacenados.
+     *
+     * @return tamaño de la lista
+     */
+    public int tamano() {
+        return tamano;
+    }
+
+    /**
+     * Indica si la lista no contiene elementos.
+     *
+     * @return true si está vacía, false si tiene elementos
+     */
+    public boolean estaVacia() {
+        return tamano == 0;
+    }
+
+    /**
+     * Convierte el contenido de la lista enlazada a una lista estándar de Java.
+     *
+     * @return lista con los elementos en el mismo orden de inserción
+     */
+    public List<T> aLista() {
+        List<T> resultado = new ArrayList<>();
+        NodoLista<T> actual = cabeza;
+        while (actual != null) {
+            resultado.add(actual.valor);
+            actual = actual.siguiente;
+        }
+        return resultado;
+    }
+
+    private static class NodoLista<T> {
+        private final T valor;
+        private NodoLista<T> siguiente;
+
+        private NodoLista(T valor) {
+            this.valor = valor;
+        }
+    }
 }
