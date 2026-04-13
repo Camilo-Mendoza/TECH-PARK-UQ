@@ -41,5 +41,31 @@ public class ABBAtraccion {
         return null;
     }
 
-   
+    /**
+     * Obtiene todas las atracciones ordenadas por nombre
+     * mediante recorrido in-order del árbol.
+     *
+     * @return lista de atracciones ordenadas
+     */
+    public List<Atraccion> inOrden() {
+        List<Atraccion> resultado = new ArrayList<>();
+        inOrdenRec(raiz, resultado);
+        return resultado;
+    }
+
+    private NodoABB insertarRec(NodoABB nodo, Atraccion atraccion) {
+        if (nodo == null) {
+            return new NodoABB(atraccion);
+        }
+
+        int comparacion = atraccion.getNombre().compareToIgnoreCase(nodo.valor.getNombre());
+        if (comparacion < 0) {
+            nodo.izquierdo = insertarRec(nodo.izquierdo, atraccion);
+        } else if (comparacion > 0) {
+            nodo.derecho = insertarRec(nodo.derecho, atraccion);
+        }
+
+        return nodo;
+    }
+
 }
