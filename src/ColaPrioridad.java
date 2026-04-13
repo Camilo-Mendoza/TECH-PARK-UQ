@@ -53,4 +53,49 @@ public class ColaPrioridad<T> {
         return prioridadNormal.poll();
     }
 
+    /**
+     * Obtiene la cantidad total de elementos en ambas colas.
+     *
+     * @return tamaño total de la estructura
+     */
+    public int tamano() {
+        return prioridadAlta.size() + prioridadNormal.size();
+    }
+
+    /**
+     * Consulta la posición de un elemento en la cola combinada.
+     *
+     * <p>Las posiciones comienzan en 1. Primero se cuentan los elementos
+     * de prioridad alta y luego los de prioridad normal.</p>
+     *
+     * @param elemento elemento a buscar
+     * @return posición del elemento o -1 si no existe
+     */
+    public int posicionDe(T elemento) {
+        if (elemento == null) {
+            return -1;
+        }
+
+        int posicionAlta = buscarPosicion(prioridadAlta, elemento);
+        if (posicionAlta != -1) {
+            return posicionAlta;
+        }
+
+        int posicionNormal = buscarPosicion(prioridadNormal, elemento);
+        if (posicionNormal != -1) {
+            return prioridadAlta.size() + posicionNormal;
+        }
+
+        return -1;
+    }
+
+    private int buscarPosicion(Queue<T> cola, T elemento) {
+        List<T> copia = new ArrayList<>(cola);
+        for (int i = 0; i < copia.size(); i++) {
+            if (elemento.equals(copia.get(i))) {
+                return i + 1;
+            }
+        }
+        return -1;
+    }
 }
