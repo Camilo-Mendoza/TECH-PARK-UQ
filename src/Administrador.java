@@ -22,7 +22,8 @@ public class Administrador extends Usuario {
         if (operador == null || zona == null) {
             throw new IllegalArgumentException("Operador y zona no pueden ser nulos.");
         }
-   // Asigna un operador a la zona y guarda la relación si las clases lo permiten.
+        operador.setZona(zona);
+        zona.asignarOperador(operador);
      }
 
     public void activarAlertaClimatica(TipoAlerta tipo) {
