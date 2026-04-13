@@ -68,4 +68,22 @@ public class ABBAtraccion {
         return nodo;
     }
 
+    private void inOrdenRec(NodoABB nodo, List<Atraccion> resultado) {
+        if (nodo == null) {
+            return;
+        }
+        inOrdenRec(nodo.izquierdo, resultado);
+        resultado.add(nodo.valor);
+        inOrdenRec(nodo.derecho, resultado);
+    }
+
+    private static class NodoABB {
+        private final Atraccion valor;
+        private NodoABB izquierdo;
+        private NodoABB derecho;
+
+        private NodoABB(Atraccion valor) {
+            this.valor = valor;
+        }
+    }
 }
