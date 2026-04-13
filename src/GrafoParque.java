@@ -49,5 +49,25 @@ public class GrafoParque {
         adyacencias.get(destino).add(origen);
     }
 
+    /**
+     * Obtiene los vecinos de un nodo.
+     *
+     * @param nodo nodo a consultar
+     * @return conjunto de vecinos o conjunto vacío si no existe
+     */
+    public Set<Nodo> obtenerVecinos(Nodo nodo) {
+        if (nodo == null || !adyacencias.containsKey(nodo)) {
+            return new HashSet<>();
+        }
+        return new HashSet<>(adyacencias.get(nodo));
+    }
 
+    /**
+     * Retorna la cantidad de nodos registrados en el grafo.
+     *
+     * @return número de nodos
+     */
+    public int cantidadNodos() {
+        return adyacencias.size();
+    }
 }
