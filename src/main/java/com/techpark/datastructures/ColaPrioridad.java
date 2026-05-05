@@ -1,102 +1,73 @@
 package com.techpark.datastructures;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 /**
  * Estructura de cola con dos niveles de prioridad.
- *
- * <p>Los elementos con prioridad alta (valor <= 1) se atienden antes
- * que los elementos en prioridad normal.</p>
+ * Prioridad alta (Fast-Pass) se atiende antes que prioridad normal (General).
  *
  * @param <T> tipo de elemento almacenado en la cola
  */
 public class ColaPrioridad<T> {
-    private final Queue<T> prioridadAlta;
-    private final Queue<T> prioridadNormal;
+    private final ListaEnlazada<T> prioridadAlta;
+    private final ListaEnlazada<T> prioridadNormal;
 
-    /**
-     * Crea una cola de prioridad vacía.
-     */
     public ColaPrioridad() {
-        this.prioridadAlta = new LinkedList<>();
-        this.prioridadNormal = new LinkedList<>();
+        this.prioridadAlta = new ListaEnlazada<>();
+        this.prioridadNormal = new ListaEnlazada<>();
     }
 
     /**
      * Encola un elemento según su nivel de prioridad.
-     *
      * @param elemento elemento a encolar
-     * @param prioridad nivel de prioridad (<= 1 es alta; > 1 es normal)
+     * @param prioridad <= 1 es alta (Fast-Pass); > 1 es normal (General)
      */
     public void encolar(T elemento, int prioridad) {
-        if (elemento == null) {
-            return;
-        }
-
+        if (elemento == null) return;
         if (prioridad <= 1) {
-            prioridadAlta.offer(elemento);
+            prioridadAlta.insertar(elemento);
         } else {
-            prioridadNormal.offer(elemento);
+            prioridadNormal.insertar(elemento);
         }
     }
 
     /**
-     * Desencola el siguiente elemento disponible respetando la prioridad.
-     *
-     * @return siguiente elemento o null si ambas colas están vacías
+     * Desencola el siguiente elemento respetando la prioridad.
+     * @return siguiente elemento o null si está vacía
      */
     public T desencolar() {
-        if (!prioridadAlta.isEmpty()) {
-            return prioridadAlta.poll();
+        if (!prioridadAlta.estaVacia()) {
+            T elemento = prioridadAlta.obtenerPrimero();
+            prioridadAlta.eliminarPrimero();
+            return elemento;
         }
-        return prioridadNormal.poll();
+        if (!prioridadNormal.estaVacia()) {
+            T elemento = prioridadNormal.obtenerPrimero();
+            prioridadNormal.eliminarPrimero();
+            return elemento;
+        }
+        return null;
     }
 
-    /**
-     * Obtiene la cantidad total de elementos en ambas colas.
-     *
-     * @return tamaño total de la estructura
-     */
     public int tamano() {
-        return prioridadAlta.size() + prioridadNormal.size();
+        return prioridadAlta.tamano() + prioridadNormal.tamano();
     }
 
-    /**
-     * Consulta la posición de un elemento en la cola combinada.
-     *
-     * <p>Las posiciones comienzan en 1. Primero se cuentan los elementos
-     * de prioridad alta y luego los de prioridad normal.</p>
-     *
-     * @param elemento elemento a buscar
-     * @return posición del elemento o -1 si no existe
-     */
+    public boolean estaVacia() {
+        return prioridadAlta.estaVacia() && prioridadNormal.estaVacia();
+    }
+
     public int posicionDe(T elemento) {
-        if (elemento == null) {
-            return -1;
-        }
-
-        int posicionAlta = buscarPosicion(prioridadAlta, elemento);
-        if (posicionAlta != -1) {
-            return posicionAlta;
-        }
-
-        int posicionNormal = buscarPosicion(prioridadNormal, elemento);
-        if (posicionNormal != -1) {
-            return prioridadAlta.size() + posicionNormal;
-        }
-
+        if (elemento == null) return -1;
+        int pos = posicionEnLista(prioridadAlta, elemento);
+        if (pos != -1) return pos;
+        int posNormal = posicionEnLista(prioridadNormal, elemento);
+        if (posNormal != -1) return prioridadAlta.tamano() + posNormal;
         return -1;
     }
 
-    private int buscarPosicion(Queue<T> cola, T elemento) {
-        List<T> copia = new ArrayList<>(cola);
-        for (int i = 0; i < copia.size(); i++) {
-            if (elemento.equals(copia.get(i))) {
-                return i + 1;
-            }
+    private int posicionEnLista(ListaEnlazada<T> lista, T elemento) {
+        java.util.List<T> items = lista.aLista();
+        for (int i = 0; i < items.size(); i++) {
+            if (elemento.equals(items.get(i))) return i + 1;
         }
         return -1;
     }

@@ -125,4 +125,22 @@ public class ListaEnlazada<T> {
             this.valor = valor;
         }
     }
+    
+    /**
+     * Obtiene el primer elemento sin eliminarlo.
+     * @return primer elemento o null si está vacía
+     */
+    public T obtenerPrimero() {
+        if (cabeza == null) return null;
+        return cabeza.valor;
+    }
+
+    /**
+     * Elimina el primer elemento de la lista.
+     */
+    public void eliminarPrimero() {
+        if (cabeza == null) return;
+        cabeza = cabeza.siguiente;
+        tamano--;
+    }
 }

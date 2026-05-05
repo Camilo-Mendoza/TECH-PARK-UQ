@@ -2,14 +2,15 @@ package com.techpark.model;
 
 import com.techpark.datastructures.*;
 
-import java.util.HashSet;
-import java.util.Set;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 public class Visitante extends Usuario {
     // Atributos
@@ -18,7 +19,7 @@ public class Visitante extends Usuario {
     private double saldoVirtual;
     private String fotoPase;
     private Ticket ticket;
-    private Set<Atraccion> favoritos;
+    private CustomSet<Atraccion> favoritos;
     private ListaEnlazada<RegistroVisita> historialVisitas;
     private Nodo ubicacionActual;
 
@@ -31,26 +32,22 @@ public class Visitante extends Usuario {
         this.saldoVirtual = saldoVirtual;
         this.fotoPase = fotoPase;
         this.ticket = null;
-        this.favoritos = new HashSet<>();
+        this.favoritos = new CustomSet<>();
         this.historialVisitas = new ListaEnlazada<>();
         this.ubicacionActual = null;
     }
 
     // Métodos de gestión de favoritos
     public void registrarFavorito(Atraccion atraccion) {
-        if (atraccion != null) {
-            favoritos.add(atraccion);
-        }
+        if (atraccion != null) favoritos.agregar(atraccion);
     }
 
     public void eliminarFavorito(Atraccion atraccion) {
-        if (atraccion != null) {
-            favoritos.remove(atraccion);
-        }
+        if (atraccion != null) favoritos.eliminar(atraccion);
     }
 
-    public Set<Atraccion> consultarFavoritos() {
-        return new HashSet<>(favoritos);
+    public CustomSet<Atraccion> consultarFavoritos() {
+        return favoritos;
     }
 
     // Métodos de gestión del historial
