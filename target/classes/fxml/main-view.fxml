@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.techpark.controller.MainController"
+            prefWidth="1200.0" prefHeight="768.0">
+    <top>
+        <HBox spacing="16.0" style="-fx-background-color: #0f172a; -fx-padding: 14 20 14 20;">
+            <Label text="🎢 Tech-Park UQ"
+                   style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+            <Label text="Sistema de Gestión Inteligente"
+                   style="-fx-text-fill: #94a3b8; -fx-font-size: 13px; -fx-padding: 4 0 0 0;"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnCargarDatos" text="⬆ Cargar Datos"
+                    onAction="#cargarDatos"
+                    style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-cursor: hand;"/>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox spacing="0" style="-fx-background-color: #1e293b;" prefWidth="180.0">
+            <padding><Insets top="16"/></padding>
+            <Button fx:id="btnMapa" text="🗺  Mapa del Parque"
+                    onAction="#mostrarMapa" maxWidth="Infinity"
+                    style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-padding: 12 16; -fx-alignment: CENTER-LEFT;"/>
+            <Button fx:id="btnVisitante" text="👤  Panel Visitante"
+                    onAction="#mostrarVisitante" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-padding: 12 16; -fx-alignment: CENTER-LEFT;"/>
+            <Button fx:id="btnAdmin" text="⚙  Administrador"
+                    onAction="#mostrarAdmin" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-padding: 12 16; -fx-alignment: CENTER-LEFT;"/>
+            <Button fx:id="btnReportes" text="📊  Reportes"
+                    onAction="#mostrarReportes" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-padding: 12 16; -fx-alignment: CENTER-LEFT;"/>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="contenidoCentral" style="-fx-background-color: #f1f5f9;"/>
+    </center>
+
+    <bottom>
+        <HBox style="-fx-background-color: #0f172a; -fx-padding: 6 16;">
+            <Label fx:id="statusLabel" text="Sistema listo"
+                   style="-fx-text-fill: #94a3b8; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

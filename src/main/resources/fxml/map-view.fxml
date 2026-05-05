@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="8.0" style="-fx-padding: 16;">
+    <Label fx:id="pathStatusLabel"
+           text="Haz clic en dos atracciones para calcular la ruta más corta"
+           style="-fx-font-size: 13px; -fx-text-fill: #475569;"/>
+    <Pane fx:id="canvas" VBox.vgrow="ALWAYS"
+          style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+</VBox>
