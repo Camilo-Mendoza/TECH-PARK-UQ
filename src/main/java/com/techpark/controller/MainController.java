@@ -50,8 +50,19 @@ public class MainController {
 
     @FXML
     public void mostrarVisitante() {
-        resaltarBoton(btnVisitante);
-        statusLabel.setText("👤 Panel de visitante — próximamente");
+    resaltarBoton(btnVisitante);
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/visitor-view.fxml"));
+        VisitorController controller = new VisitorController(dataService);
+        loader.setController(controller);
+        Node vista = loader.load();
+        contenidoCentral.getChildren().setAll(vista);
+        statusLabel.setText("👤 Panel de visitante");
+    } catch (Exception e) {
+        statusLabel.setText("Error: " + e.getMessage());
+        e.printStackTrace();
+    }
+    
     }
 
     @FXML
