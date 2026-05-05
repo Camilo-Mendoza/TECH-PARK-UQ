@@ -17,7 +17,16 @@
             <HBox HBox.hgrow="ALWAYS"/>
             <Button fx:id="btnCargarDatos" text="⬆ Cargar Datos"
                     onAction="#cargarDatos"
-                    style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-cursor: hand;"/>
+                    style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
+            <Button fx:id="btnGuardarDatos" text="💾 Guardar Datos"
+                    onAction="#guardarDatos"
+                    style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
+            <Button fx:id="btnCerrarSesion" text="🚪 Cerrar Sesión"
+                    onAction="#cerrarSesion"
+                    style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
+            <Button fx:id="btnSalir" text="❌ Salir"
+                    onAction="#salirApp"
+                    style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
         </HBox>
     </top>
 

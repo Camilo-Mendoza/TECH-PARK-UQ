@@ -1,24 +1,4 @@
 {
-  "zonas": [
-    {
-      "id": 1,
-      "nombre": "Aventura",
-      "capacidadMaxima": 600,
-      "atracciones": [1, 2, 3]
-    },
-    {
-      "id": 2,
-      "nombre": "Infantil",
-      "capacidadMaxima": 400,
-      "atracciones": [4, 5]
-    },
-    {
-      "id": 3,
-      "nombre": "Acuática",
-      "capacidadMaxima": 500,
-      "atracciones": [6, 7]
-    }
-  ],
   "atracciones": [
     {
       "id": 1,
@@ -31,8 +11,8 @@
       "zonaId": 1,
       "estado": "ACTIVA",
       "contadorVisitantes": 180,
-      "posX": 120.0,
-      "posY": 120.0
+      "posX": 0.0,
+      "posY": 0.0
     },
     {
       "id": 2,
@@ -45,8 +25,8 @@
       "zonaId": 1,
       "estado": "ACTIVA",
       "contadorVisitantes": 260,
-      "posX": 200.0,
-      "posY": 80.0
+      "posX": 0.0,
+      "posY": 0.0
     },
     {
       "id": 3,
@@ -59,8 +39,8 @@
       "zonaId": 1,
       "estado": "EN_MANTENIMIENTO",
       "contadorVisitantes": 500,
-      "posX": 280.0,
-      "posY": 150.0
+      "posX": 0.0,
+      "posY": 0.0
     },
     {
       "id": 4,
@@ -73,8 +53,8 @@
       "zonaId": 2,
       "estado": "ACTIVA",
       "contadorVisitantes": 90,
-      "posX": 500.0,
-      "posY": 200.0
+      "posX": 0.0,
+      "posY": 0.0
     },
     {
       "id": 5,
@@ -87,8 +67,8 @@
       "zonaId": 2,
       "estado": "ACTIVA",
       "contadorVisitantes": 150,
-      "posX": 560.0,
-      "posY": 280.0
+      "posX": 0.0,
+      "posY": 0.0
     },
     {
       "id": 6,
@@ -101,8 +81,8 @@
       "zonaId": 3,
       "estado": "ACTIVA",
       "contadorVisitantes": 320,
-      "posX": 400.0,
-      "posY": 400.0
+      "posX": 0.0,
+      "posY": 0.0
     },
     {
       "id": 7,
@@ -115,31 +95,83 @@
       "zonaId": 3,
       "estado": "CERRADA",
       "contadorVisitantes": 410,
-      "posX": 480.0,
-      "posY": 460.0
+      "posX": 0.0,
+      "posY": 0.0
+    }
+  ],
+  "zonas": [
+    {
+      "id": 1,
+      "nombre": "Aventura",
+      "capacidadMaxima": 600,
+      "atracciones": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Infantil",
+      "capacidadMaxima": 400,
+      "atracciones": [
+        4,
+        5
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Acuática",
+      "capacidadMaxima": 500,
+      "atracciones": [
+        6,
+        7
+      ]
     }
   ],
   "conexiones": [
-    {"origen": 1, "destino": 2, "peso": 3},
-    {"origen": 1, "destino": 3, "peso": 5},
-    {"origen": 2, "destino": 3, "peso": 4},
-    {"origen": 2, "destino": 4, "peso": 8},
-    {"origen": 3, "destino": 6, "peso": 6},
-    {"origen": 4, "destino": 5, "peso": 2},
-    {"origen": 5, "destino": 6, "peso": 7},
-    {"origen": 6, "destino": 7, "peso": 3}
+    {
+      "origen": 5,
+      "destino": 6,
+      "peso": 7
+    },
+    {
+      "origen": 6,
+      "destino": 7,
+      "peso": 3
+    },
+    {
+      "origen": 3,
+      "destino": 6,
+      "peso": 6
+    },
+    {
+      "origen": 2,
+      "destino": 3,
+      "peso": 4
+    },
+    {
+      "origen": 2,
+      "destino": 4,
+      "peso": 8
+    },
+    {
+      "origen": 1,
+      "destino": 2,
+      "peso": 3
+    },
+    {
+      "origen": 1,
+      "destino": 3,
+      "peso": 5
+    },
+    {
+      "origen": 4,
+      "destino": 5,
+      "peso": 2
+    }
   ],
   "visitantes": [
-    {
-      "id": "V001",
-      "nombre": "Carlos Pérez",
-      "email": "carlos@email.com",
-      "contrasena": "1234",
-      "edad": 25,
-      "estatura": 1.75,
-      "saldoVirtual": 50000.0,
-      "tipoTicket": "FAST_PASS"
-    },
     {
       "id": "V002",
       "nombre": "María López",
@@ -148,7 +180,21 @@
       "edad": 32,
       "estatura": 1.62,
       "saldoVirtual": 30000.0,
-      "tipoTicket": "GENERAL"
+      "tipoTicket": "GENERAL",
+      "favoritos": []
+    },
+    {
+      "id": "V001",
+      "nombre": "Carlos Pérez",
+      "email": "carlos@email.com",
+      "contrasena": "1234",
+      "edad": 25,
+      "estatura": 1.75,
+      "saldoVirtual": 50000.0,
+      "tipoTicket": "FAST_PASS",
+      "favoritos": [
+        "Torre Cóndor"
+      ]
     }
   ],
   "operadores": [

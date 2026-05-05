@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -10,14 +11,7 @@
     <Label text="Panel del Visitante"
            style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
 
-    <!-- Selector de visitante -->
-    <HBox spacing="12" style="-fx-alignment: center-left;">
-        <Label text="Visitante:" style="-fx-font-weight: bold;"/>
-        <ComboBox fx:id="selectorVisitante" promptText="Selecciona un visitante"
-                  onAction="#cargarVisitante" prefWidth="250"/>
-    </HBox>
-
-    <!-- Info del visitante -->
+    <!-- Info del visitante logueado -->
     <HBox spacing="16" style="-fx-background-color: white; -fx-padding: 16; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
         <VBox spacing="6">
             <Label fx:id="lblNombre" text="Nombre: —" style="-fx-font-size: 14px;"/>
@@ -32,11 +26,11 @@
 
     <!-- Cola virtual -->
     <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 16; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
-        <Label text="Cola Virtual" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <Label text="🎢 Cola Virtual" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
         <HBox spacing="12" style="-fx-alignment: center-left;">
             <ComboBox fx:id="selectorAtraccion" promptText="Selecciona una atracción" prefWidth="250"/>
             <Button text="Unirse a la fila" onAction="#unirseAFila"
-                    style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16;"/>
+                    style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
         </HBox>
         <Label fx:id="lblPosicionFila" text="Posición en fila: —"
                style="-fx-font-size: 13px; -fx-text-fill: #475569;"/>
@@ -47,13 +41,13 @@
     <!-- Favoritos -->
     <VBox spacing="10" VBox.vgrow="ALWAYS"
           style="-fx-background-color: white; -fx-padding: 16; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
-        <Label text="Atracciones Favoritas" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <Label text="⭐ Atracciones Favoritas" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
         <HBox spacing="12" style="-fx-alignment: center-left;">
             <ComboBox fx:id="selectorFavorito" promptText="Agregar favorito" prefWidth="250"/>
             <Button text="⭐ Agregar" onAction="#agregarFavorito"
-                    style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16;"/>
+                    style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
             <Button text="🗑 Quitar" onAction="#quitarFavorito"
-                    style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16;"/>
+                    style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
         </HBox>
         <ListView fx:id="listaFavoritos" prefHeight="150"/>
     </VBox>

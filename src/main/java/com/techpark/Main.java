@@ -1,6 +1,9 @@
 package com.techpark;
 
+import com.techpark.controller.MainController;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -12,6 +15,24 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main-view.fxml"));
         BorderPane root = loader.load();
+        
+        MainController controller = loader.getController();
+        
+        // Guardar datos al cerrar la ventana
+        stage.setOnCloseRequest(event -> {
+            event.consume();
+            Platform.runLater(() -> {
+                try {
+                    controller.guardarDatos();
+                    System.out.println("👋 Aplicación cerrada correctamente.");
+                } catch (Exception e) {
+                    System.err.println("Error al guardar: " + e.getMessage());
+                }
+                Platform.exit();
+                System.exit(0);
+            });
+        });
+        
         Scene scene = new Scene(root);
         stage.setTitle("Tech-Park UQ");
         stage.setMinWidth(1000);
