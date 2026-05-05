@@ -1,5 +1,7 @@
 package com.techpark.datastructures;
 
+import com.techpark.model.Atraccion;
+
 import java.util.ArrayList;
 import java.util.List;
 

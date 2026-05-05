@@ -41,8 +41,8 @@ public class Administrador extends Usuario {
         return new Reporte();
     }
 
-    public GrafoParque consultarGrafo() {
-        return new GrafoParque();
+    public Grafo<Atraccion> consultarGrafo(Grafo<Atraccion> grafo) {
+    return grafo;
     }
 // Método para gestionar empleados, que podría incluir operadores y otros administradores
     public void gestionarEmpleado(Usuario usuario) {
