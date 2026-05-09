@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="16.0" style="-fx-padding: 20; -fx-background-color: #f1f5f9;">
+
+    <Label text="Panel de Administrador"
+           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+
+    <!-- Info del admin -->
+    <HBox spacing="16" style="-fx-background-color: white; -fx-padding: 16; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+        <VBox spacing="6">
+            <Label fx:id="lblAdminNombre" text="Administrador: —" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <Label fx:id="lblEstadisticas" text="Estadísticas del parque" style="-fx-text-fill: #64748b;"/>
+        </VBox>
+    </HBox>
+
+    <!-- Pestañas de gestión -->
+    <TabPane VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+        
+        <!-- PESTAÑA 1: GESTIÓN DE ZONAS -->
+        <Tab text="🏗 Zonas" closable="false">
+            <VBox spacing="12" style="-fx-padding: 16;">
+                <Label text="Gestión de Zonas del Parque" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                
+                <HBox spacing="10">
+                    <TextField fx:id="txtNombreZona" promptText="Nombre de la zona" prefWidth="200"/>
+                    <TextField fx:id="txtCapacidadZona" promptText="Capacidad máxima" prefWidth="120"/>
+                    <Button text="➕ Crear Zona" onAction="#crearZona"
+                            style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
+                </HBox>
+                
+                <ListView fx:id="listaZonas" prefHeight="150"/>
+            </VBox>
+        </Tab>
+
+        <!-- PESTAÑA 2: GESTIÓN DE ATRACCIONES -->
+        <Tab text="🎢 Atracciones" closable="false">
+            <VBox spacing="12" style="-fx-padding: 16;">
+                <Label text="Todas las Atracciones" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <ListView fx:id="listaAtraccionesAdmin" prefHeight="200"/>
+            </VBox>
+        </Tab>
+
+        <!-- PESTAÑA 3: GESTIÓN DE OPERADORES -->
+        <Tab text="🔧 Operadores" closable="false">
+            <VBox spacing="12" style="-fx-padding: 16;">
+                <Label text="Asignar Operadores a Zonas" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                
+                <HBox spacing="10">
+                    <ComboBox fx:id="selectorOperador" promptText="Selecciona operador" prefWidth="200"/>
+                    <ComboBox fx:id="selectorZonaAsignar" promptText="Selecciona zona" prefWidth="200"/>
+                    <Button text="📌 Asignar" onAction="#asignarOperador"
+                            style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
+                </HBox>
+                
+                <Label text="Operadores y sus zonas:" style="-fx-font-weight: bold; -fx-text-fill: #64748b;"/>
+                <ListView fx:id="listaOperadoresAdmin" prefHeight="150"/>
+            </VBox>
+        </Tab>
+
+        <!-- PESTAÑA 4: ALERTAS CLIMÁTICAS -->
+        <Tab text="🌧 Alertas" closable="false">
+            <VBox spacing="12" style="-fx-padding: 16;">
+                <Label text="Sistema de Alertas Climáticas" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <Label text="Activar una alerta cerrará automáticamente las atracciones afectadas" 
+                       style="-fx-text-fill: #dc2626; -fx-font-size: 12px;"/>
+                
+                <ComboBox fx:id="selectorAlerta" promptText="Selecciona tipo de alerta" prefWidth="300"/>
+                <Button text="⚠ Activar Alerta" onAction="#activarAlerta"
+                        style="-fx-background-color: #dc2626; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
+                
+                <Label text="Atracciones afectadas:" style="-fx-font-weight: bold; -fx-text-fill: #64748b;"/>
+                <ListView fx:id="listaAtraccionesAfectadas" prefHeight="120"/>
+            </VBox>
+        </Tab>
+        
+    </TabPane>
+
+</VBox>
