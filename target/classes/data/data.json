@@ -23,7 +23,7 @@
       "edadMinima": 9,
       "costoAdicional": 6.0,
       "zonaId": 1,
-      "estado": "ACTIVA",
+      "estado": "CERRADA",
       "contadorVisitantes": 260,
       "posX": 0.0,
       "posY": 0.0
@@ -79,7 +79,7 @@
       "edadMinima": 7,
       "costoAdicional": 5.0,
       "zonaId": 3,
-      "estado": "ACTIVA",
+      "estado": "CERRADA",
       "contadorVisitantes": 320,
       "posX": 0.0,
       "posY": 0.0
@@ -131,16 +131,6 @@
   ],
   "conexiones": [
     {
-      "origen": 3,
-      "destino": 6,
-      "peso": 6
-    },
-    {
-      "origen": 5,
-      "destino": 6,
-      "peso": 7
-    },
-    {
       "origen": 2,
       "destino": 3,
       "peso": 4
@@ -149,6 +139,11 @@
       "origen": 2,
       "destino": 4,
       "peso": 8
+    },
+    {
+      "origen": 4,
+      "destino": 5,
+      "peso": 2
     },
     {
       "origen": 1,
@@ -161,14 +156,19 @@
       "peso": 5
     },
     {
-      "origen": 4,
-      "destino": 5,
-      "peso": 2
-    },
-    {
       "origen": 6,
       "destino": 7,
       "peso": 3
+    },
+    {
+      "origen": 3,
+      "destino": 6,
+      "peso": 6
+    },
+    {
+      "origen": 5,
+      "destino": 6,
+      "peso": 7
     }
   ],
   "visitantes": [
@@ -217,7 +217,7 @@
       "nombre": "Nicolas Operador",
       "email": "dbfan@techpark.com",
       "contrasena": "op123",
-      "zonaId": 1
+      "zonaId": 2
     },
     {
       "id": "O002",

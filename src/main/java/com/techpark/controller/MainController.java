@@ -2,6 +2,8 @@ package com.techpark.controller;
 
 import com.techpark.controller.LoginController.RolUsuario;
 import com.techpark.model.Visitante;
+import com.techpark.model.Operador;
+import com.techpark.model.Administrador;
 import com.techpark.service.ParkDataService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -21,6 +23,7 @@ public class MainController {
     @FXML private Label statusLabel;
     @FXML private Button btnMapa;
     @FXML private Button btnVisitante;
+    @FXML private Button btnOperador;
     @FXML private Button btnAdmin;
     @FXML private Button btnReportes;
 
@@ -51,9 +54,9 @@ public class MainController {
             contenidoCentral.getChildren().setAll(vista);
             statusLabel.setText("🔐 Inicia sesión para continuar");
             
-            // Ocultar botones de navegación
             btnMapa.setVisible(false);
             btnVisitante.setVisible(false);
+            btnOperador.setVisible(false);
             btnAdmin.setVisible(false);
             btnReportes.setVisible(false);
             
@@ -64,23 +67,30 @@ public class MainController {
     }
 
     private void despuesDelLogin(RolUsuario rol, Object usuario) {
-        // Mostrar botones de navegación
         btnMapa.setVisible(true);
         btnVisitante.setVisible(true);
+        btnOperador.setVisible(true);
         btnAdmin.setVisible(true);
         btnReportes.setVisible(true);
         
         String nombreUsuario = obtenerNombreUsuario(usuario);
-        statusLabel.setText(" Bienvenido: " + nombreUsuario + " (" + rol + ")");
+        statusLabel.setText("✅ Bienvenido: " + nombreUsuario + " (" + rol + ")");
         
         switch (rol) {
             case VISITANTE -> mostrarVisitante();
-            case OPERADOR -> mostrarMapa();
-            case ADMIN -> mostrarMapa();
+            case OPERADOR -> mostrarOperador();
+            case ADMIN -> mostrarAdmin();
         }
     }
 
-    // ============ NUEVO: CERRAR SESIÓN ============
+    private String obtenerNombreUsuario(Object usuario) {
+        if (usuario instanceof Visitante v) return v.getNombre();
+        if (usuario instanceof Operador o) return o.getNombre();
+        if (usuario instanceof Administrador a) return a.getNombre();
+        return "Usuario";
+    }
+
+    // ============ CERRAR SESIÓN ============
     @FXML
     public void cerrarSesion() {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
@@ -90,20 +100,15 @@ public class MainController {
         
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            // Guardar datos antes de cerrar sesión
             dataService.guardarDatos();
-            
-            // Limpiar usuario actual
             usuarioActual = null;
             rolActual = null;
-            
-            // Volver al login
             mostrarLogin();
-            statusLabel.setText(" Sesión cerrada. Datos guardados.");
+            statusLabel.setText("👋 Sesión cerrada. Datos guardados.");
         }
     }
 
-    // ============ NUEVO: SALIR DE LA APP ============
+    // ============ SALIR DE LA APP ============
     @FXML
     public void salirApp() {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
@@ -113,14 +118,19 @@ public class MainController {
         
         Optional<ButtonType> resultado = confirmacion.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            // Guardar datos antes de salir
             dataService.guardarDatos();
-            System.out.println("Cerrando aplicación.... Datos guardados.");
-            
-            // Cerrar la aplicación
+            System.out.println("👋 Cerrando aplicación... Datos guardados.");
             Platform.exit();
             System.exit(0);
         }
+    }
+
+    // ============ CARGA/GUARDADO DE DATOS ============
+    @FXML
+    public void cargarDatos() {
+        dataService.cargarDatos();
+        statusLabel.setText("✅ Datos cargados correctamente");
+        mostrarMapa();
     }
 
     @FXML
@@ -129,20 +139,7 @@ public class MainController {
         statusLabel.setText("💾 Datos guardados correctamente");
     }
 
-    private String obtenerNombreUsuario(Object usuario) {
-        if (usuario instanceof Visitante v) return v.getNombre();
-        if (usuario instanceof com.techpark.model.Operador o) return o.getNombre();
-        if (usuario instanceof com.techpark.model.Administrador a) return a.getNombre();
-        return "Usuario";
-    }
-
-    @FXML
-    public void cargarDatos() {
-        dataService.cargarDatos();
-        statusLabel.setText("✅ Datos cargados correctamente");
-        mostrarMapa();
-    }
-
+    // ============ NAVEGACIÓN ============
     @FXML
     public void mostrarMapa() {
         resaltarBoton(btnMapa);
@@ -166,7 +163,6 @@ public class MainController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/visitor-view.fxml"));
             VisitorController controller = new VisitorController(dataService);
             
-            // Pasar visitante logueado
             if (usuarioActual instanceof Visitante visitante) {
                 controller.setVisitanteInicial(visitante);
             }
@@ -174,7 +170,6 @@ public class MainController {
             loader.setController(controller);
             Node vista = loader.load();
             
-            // Forzar carga de datos
             if (usuarioActual instanceof Visitante) {
                 controller.cargarDatosVisitantePublico();
             }
@@ -189,15 +184,69 @@ public class MainController {
     }
 
     @FXML
+    public void mostrarOperador() {
+        resaltarBoton(btnOperador);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/operator-view.fxml"));
+            OperatorController controller = new OperatorController(dataService);
+            loader.setController(controller);
+            
+            // CARGAR PRIMERO LA VISTA
+            Node vista = loader.load();
+            
+            // LUEGO PASAR EL USUARIO
+            if (usuarioActual instanceof Operador operador) {
+                controller.setOperadorInicial(operador);
+            }
+            
+            contenidoCentral.getChildren().setAll(vista);
+            statusLabel.setText("🔧 Panel de operador - " + 
+                (usuarioActual instanceof Operador o ? o.getNombre() : ""));
+        } catch (Exception e) {
+            statusLabel.setText("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void mostrarAdmin() {
         resaltarBoton(btnAdmin);
-        statusLabel.setText("⚙ Panel de administrador — próximamente");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/admin-view.fxml"));
+            AdminController controller = new AdminController(dataService);
+            loader.setController(controller);
+            
+            // CARGAR PRIMERO LA VISTA
+            Node vista = loader.load();
+            
+            // LUEGO PASAR EL USUARIO
+            if (usuarioActual instanceof Administrador admin) {
+                controller.setAdminInicial(admin);
+            }
+            
+            contenidoCentral.getChildren().setAll(vista);
+            statusLabel.setText("⚙ Panel de administrador - " + 
+                (usuarioActual instanceof Administrador a ? a.getNombre() : ""));
+        } catch (Exception e) {
+            statusLabel.setText("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void mostrarReportes() {
         resaltarBoton(btnReportes);
-        statusLabel.setText("📊 Reportes — próximamente");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/report-view.fxml"));
+            ReportController controller = new ReportController(dataService);
+            loader.setController(controller);
+            Node vista = loader.load();
+            contenidoCentral.getChildren().setAll(vista);
+            statusLabel.setText("📊 Reportes del parque");
+        } catch (Exception e) {
+            statusLabel.setText("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void resaltarBoton(Button activo) {
@@ -205,6 +254,7 @@ public class MainController {
         String activoStyle = "-fx-background-color: #2563eb; -fx-text-fill: white; -fx-padding: 12 16; -fx-alignment: CENTER-LEFT;";
         btnMapa.setStyle(inactivo);
         btnVisitante.setStyle(inactivo);
+        btnOperador.setStyle(inactivo);
         btnAdmin.setStyle(inactivo);
         btnReportes.setStyle(inactivo);
         activo.setStyle(activoStyle);

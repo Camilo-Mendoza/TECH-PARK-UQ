@@ -71,9 +71,10 @@
                        style="-fx-text-fill: #dc2626; -fx-font-size: 12px;"/>
                 
                 <ComboBox fx:id="selectorAlerta" promptText="Selecciona tipo de alerta" prefWidth="300"/>
-                <Button text="⚠ Activar Alerta" onAction="#activarAlerta"
+                <Button text=" Activar Alerta" onAction="#activarAlerta"
                         style="-fx-background-color: #dc2626; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
-                
+                <Button text=" Desactivar Alerta y Reactivar Atracciones" onAction="#desactivarAlerta"
+                        style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>   
                 <Label text="Atracciones afectadas:" style="-fx-font-weight: bold; -fx-text-fill: #64748b;"/>
                 <ListView fx:id="listaAtraccionesAfectadas" prefHeight="120"/>
             </VBox>

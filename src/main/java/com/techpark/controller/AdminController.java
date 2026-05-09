@@ -249,6 +249,28 @@ public class AdminController {
                      " atracciones cerradas automáticamente.");
     }
 
+    @FXML
+    public void desactivarAlerta() {
+        // Reactivar todas las atracciones que están cerradas por clima
+        int reactivadas = 0;
+        for (Atraccion a : dataService.getAtracciones()) {
+            if (a.getEstado() == EstadoAtraccion.CERRADA && 
+                a.getMotivoCierre() == MotivosCierre.CLIMA) {
+                a.cambiarEstado(EstadoAtraccion.ACTIVA, null);
+                reactivadas++;
+            }
+        }
+        
+        dataService.guardarDatos();
+        actualizarListaAtracciones();
+        actualizarEstadisticas();
+        
+        listaAtraccionesAfectadas.getItems().clear();
+        listaAtraccionesAfectadas.getItems().add("Alerta desactivada. " + reactivadas + " atracciones reactivadas.");
+        
+        mostrarAlerta("lerta climática desactivada.\n" + reactivadas + " atracciones han sido reactivadas.");
+    }
+
     private void mostrarAlerta(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Tech-Park UQ - Administrador");

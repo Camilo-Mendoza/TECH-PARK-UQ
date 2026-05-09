@@ -39,6 +39,9 @@
             <Button fx:id="btnVisitante" text="👤  Panel Visitante"
                     onAction="#mostrarVisitante" maxWidth="Infinity"
                     style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-padding: 12 16; -fx-alignment: CENTER-LEFT;"/>
+            <Button fx:id="btnOperador" text="🔧  Panel Operador"
+                    onAction="#mostrarOperador" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-padding: 12 16; -fx-alignment: CENTER-LEFT;"/>
             <Button fx:id="btnAdmin" text="⚙  Administrador"
                     onAction="#mostrarAdmin" maxWidth="Infinity"
                     style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-padding: 12 16; -fx-alignment: CENTER-LEFT;"/>
