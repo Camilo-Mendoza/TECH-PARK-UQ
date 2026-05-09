@@ -28,21 +28,16 @@ public class OperatorController {
     public void setOperadorInicial(Operador operador) {
         this.operadorActual = operador;
         if (operador != null) {
-            lblOperadorNombre.setText("🔧 " + operador.getNombre());
-            lblOperadorZona.setText("📍 Zona: " + 
+            lblOperadorNombre.setText("Operador: " + operador.getNombre());
+            lblOperadorZona.setText("Zona: " + 
                 (operador.getZona() != null ? operador.getZona().getNombre() : "Sin asignar"));
+            // Cargar atracciones DESPUES de tener el operador
+            cargarAtraccionesDeZona();
         }
     }
 
     @FXML
     public void initialize() {
-        // Cargar solo las atracciones de la zona del operador
-        if (operadorActual != null && operadorActual.getZona() != null) {
-            for (Atraccion a : operadorActual.getZona().getAtracciones().aLista()) {
-                selectorAtraccion.getItems().add(a);
-            }
-        }
-
         // Configurar cómo se muestran las atracciones
         selectorAtraccion.setCellFactory(lv -> new ListCell<>() {
             @Override
@@ -51,12 +46,12 @@ public class OperatorController {
                 if (empty || a == null) {
                     setText(null);
                 } else {
-                    String estadoEmoji = switch (a.getEstado()) {
-                        case ACTIVA -> "🟢";
-                        case EN_MANTENIMIENTO -> "🟠";
-                        case CERRADA -> "🔴";
+                    String estadoStr = switch (a.getEstado()) {
+                        case ACTIVA -> "ACTIVA";
+                        case EN_MANTENIMIENTO -> "MANTENIMIENTO";
+                        case CERRADA -> "CERRADA";
                     };
-                    setText(estadoEmoji + " " + a.getNombre());
+                    setText("[" + estadoStr + "] " + a.getNombre());
                 }
             }
         });
@@ -68,34 +63,51 @@ public class OperatorController {
             }
         });
 
-        // Listener para mostrar info al seleccionar atracción
         selectorAtraccion.setOnAction(e -> actualizarInfoAtraccion());
+    }
+
+    private void cargarAtraccionesDeZona() {
+        selectorAtraccion.getItems().clear();
+        if (operadorActual != null && operadorActual.getZona() != null) {
+            Zona zona = operadorActual.getZona();
+            // Recargar atracciones desde el servicio para asegurar datos frescos
+            for (Atraccion a : dataService.getAtracciones()) {
+                if (a.getZona() != null && a.getZona().getId().equals(zona.getId())) {
+                    selectorAtraccion.getItems().add(a);
+                }
+            }
+        }
+        // Si no hay atracciones en la zona, mostrar mensaje
+        if (selectorAtraccion.getItems().isEmpty()) {
+            registrarActividad("No hay atracciones asignadas a tu zona.");
+        }
     }
 
     private void actualizarInfoAtraccion() {
         atraccionSeleccionada = selectorAtraccion.getValue();
         if (atraccionSeleccionada == null) {
-            lblEstadoActual.setText("Estado actual: —");
-            lblContadorVisitantes.setText("Visitantes acumulados: —");
-            lblColaVirtual.setText("Personas en cola: —");
+            lblEstadoActual.setText("Estado actual: --");
+            lblContadorVisitantes.setText("Visitantes acumulados: --");
+            lblColaVirtual.setText("Personas en cola: --");
             return;
         }
 
         lblEstadoActual.setText("Estado actual: " + atraccionSeleccionada.getEstado());
-        lblContadorVisitantes.setText("Visitantes acumulados: " + atraccionSeleccionada.getContadorVisitantes() + " / 500");
+        lblContadorVisitantes.setText("Visitantes acumulados: " + 
+            atraccionSeleccionada.getContadorVisitantes() + " / 500");
         
-        int enCola = atraccionSeleccionada.getCola() != null ? atraccionSeleccionada.getCola().tamano() : 0;
+        int enCola = atraccionSeleccionada.getCola() != null ? 
+            atraccionSeleccionada.getCola().tamano() : 0;
         lblColaVirtual.setText("Personas en cola: " + enCola);
     }
 
     @FXML
     public void cambiarEstado() {
         if (atraccionSeleccionada == null) {
-            mostrarAlerta("Selecciona una atracción primero.");
+            mostrarAlerta("Selecciona una atraccion primero.");
             return;
         }
 
-        // Diálogo para elegir nuevo estado
         ChoiceDialog<EstadoAtraccion> dialog = new ChoiceDialog<>(
             atraccionSeleccionada.getEstado(),
             EstadoAtraccion.values()
@@ -107,18 +119,17 @@ public class OperatorController {
         dialog.showAndWait().ifPresent(nuevoEstado -> {
             MotivosCierre motivo = null;
             if (nuevoEstado == EstadoAtraccion.CERRADA) {
-                // Preguntar motivo
                 ChoiceDialog<MotivosCierre> motivoDialog = new ChoiceDialog<>(
                     MotivosCierre.OTRO, MotivosCierre.values()
                 );
                 motivoDialog.setTitle("Motivo de Cierre");
-                motivoDialog.setHeaderText("¿Por qué se cierra " + atraccionSeleccionada.getNombre() + "?");
+                motivoDialog.setHeaderText("Por que se cierra " + atraccionSeleccionada.getNombre() + "?");
                 motivoDialog.setContentText("Motivo:");
                 motivo = motivoDialog.showAndWait().orElse(MotivosCierre.OTRO);
             }
 
             operadorActual.gestionarEstadoAtraccion(atraccionSeleccionada, nuevoEstado, motivo);
-            registrarActividad("Cambió estado de " + atraccionSeleccionada.getNombre() + 
+            registrarActividad("Cambio estado de " + atraccionSeleccionada.getNombre() + 
                              " a " + nuevoEstado);
             actualizarInfoAtraccion();
         });
@@ -127,34 +138,34 @@ public class OperatorController {
     @FXML
     public void registrarRevision() {
         if (atraccionSeleccionada == null) {
-            mostrarAlerta("Selecciona una atracción primero.");
+            mostrarAlerta("Selecciona una atraccion primero.");
             return;
         }
 
         operadorActual.registrarRevisionTecnica(atraccionSeleccionada);
-        registrarActividad("Registró revisión técnica de " + atraccionSeleccionada.getNombre() + 
-                         " → Contador reiniciado a 0");
+        registrarActividad("Registro revision tecnica de " + atraccionSeleccionada.getNombre() + 
+                         " -> Contador reiniciado a 0");
         actualizarInfoAtraccion();
         
-        mostrarAlerta("✅ Revisión técnica registrada.\n" +
-                     "Atracción reactivada y contador reiniciado.");
+        mostrarAlerta("Revision tecnica registrada.\n" +
+                     "Atraccion reactivada y contador reiniciado.");
     }
 
     @FXML
     public void procesarSiguiente() {
         if (atraccionSeleccionada == null) {
-            mostrarAlerta("Selecciona una atracción primero.");
+            mostrarAlerta("Selecciona una atraccion primero.");
             return;
         }
 
         Visitante siguiente = operadorActual.procesarSiguienteEnFila(atraccionSeleccionada);
         if (siguiente != null) {
-            registrarActividad("Procesó a " + siguiente.getNombre() + 
+            registrarActividad("Proceso a " + siguiente.getNombre() + 
                              " en " + atraccionSeleccionada.getNombre());
             actualizarInfoAtraccion();
-            mostrarAlerta("✅ Visitante procesado: " + siguiente.getNombre());
+            mostrarAlerta("Visitante procesado: " + siguiente.getNombre());
         } else {
-            mostrarAlerta("No hay visitantes en la cola o la atracción no está disponible.");
+            mostrarAlerta("No hay visitantes en la cola o la atraccion no esta disponible.");
         }
     }
 
@@ -162,7 +173,6 @@ public class OperatorController {
         String hora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         listaActividades.getItems().add(0, "[" + hora + "] " + actividad);
         
-        // Mantener solo últimas 50 actividades
         if (listaActividades.getItems().size() > 50) {
             listaActividades.getItems().remove(50, listaActividades.getItems().size());
         }
