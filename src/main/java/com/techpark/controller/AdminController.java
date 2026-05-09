@@ -4,7 +4,6 @@ import com.techpark.model.*;
 import com.techpark.service.ParkDataService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,20 +12,16 @@ public class AdminController {
     @FXML private Label lblAdminNombre;
     @FXML private Label lblEstadisticas;
     
-    // Pestaña Zonas
     @FXML private TextField txtNombreZona;
     @FXML private TextField txtCapacidadZona;
     @FXML private ListView<String> listaZonas;
     
-    // Pestaña Atracciones
     @FXML private ListView<String> listaAtraccionesAdmin;
     
-    // Pestaña Operadores
     @FXML private ComboBox<Operador> selectorOperador;
     @FXML private ComboBox<Zona> selectorZonaAsignar;
     @FXML private ListView<String> listaOperadoresAdmin;
     
-    // Pestaña Alertas
     @FXML private ComboBox<TipoAlerta> selectorAlerta;
     @FXML private ListView<String> listaAtraccionesAfectadas;
 
@@ -40,21 +35,19 @@ public class AdminController {
     public void setAdminInicial(Administrador admin) {
         this.adminActual = admin;
         if (admin != null) {
-            lblAdminNombre.setText("⚙ " + admin.getNombre());
+            lblAdminNombre.setText("Admin: " + admin.getNombre());
             actualizarEstadisticas();
         }
     }
 
     @FXML
     public void initialize() {
-        // Cargar listas
         actualizarListaZonas();
         actualizarListaAtracciones();
         cargarOperadores();
         cargarTiposAlerta();
     }
 
-    // ============ ESTADÍSTICAS ============
     private void actualizarEstadisticas() {
         int totalAtracciones = dataService.getAtracciones().size();
         int totalZonas = dataService.getZonas().size();
@@ -63,11 +56,10 @@ public class AdminController {
             .filter(a -> a.getEstado() == EstadoAtraccion.ACTIVA).count();
         
         lblEstadisticas.setText(String.format(
-            "🏗 %d zonas | 🎢 %d atracciones (%d activas) | 👤 %d visitantes registrados",
+            "%d zonas | %d atracciones (%d activas) | %d visitantes",
             totalZonas, totalAtracciones, activas, totalVisitantes));
     }
 
-    // ============ GESTIÓN DE ZONAS ============
     @FXML
     public void crearZona() {
         String nombre = txtNombreZona.getText().trim();
@@ -88,7 +80,6 @@ public class AdminController {
             Zona nuevaZona = adminActual.crearZona(nombre);
             nuevaZona.setCapacidadMaxima(capacidad);
             
-            // Guardar en el servicio
             dataService.getZonas().add(nuevaZona);
             dataService.guardarDatos();
             
@@ -97,10 +88,10 @@ public class AdminController {
             actualizarListaZonas();
             actualizarEstadisticas();
             
-            mostrarAlerta("✅ Zona creada: " + nombre);
+            mostrarAlerta("Zona creada: " + nombre);
             
         } catch (NumberFormatException e) {
-            mostrarAlerta("Capacidad debe ser un número válido.");
+            mostrarAlerta("Capacidad debe ser un numero valido.");
         }
     }
 
@@ -110,29 +101,27 @@ public class AdminController {
             int numAtracciones = z.getAtracciones().tamano();
             int numOperadores = z.getOperadores().tamano();
             listaZonas.getItems().add(String.format(
-                "🏗 %s | Capacidad: %d | Atracciones: %d | Operadores: %d",
+                "%s | Capacidad: %d | Atracciones: %d | Operadores: %d",
                 z.getNombre(), z.getCapacidadMaxima(), numAtracciones, numOperadores));
         }
     }
 
-    // ============ GESTIÓN DE ATRACCIONES ============
     private void actualizarListaAtracciones() {
         listaAtraccionesAdmin.getItems().clear();
         for (Atraccion a : dataService.getAtracciones()) {
-            String estadoEmoji = switch (a.getEstado()) {
-                case ACTIVA -> "🟢";
-                case EN_MANTENIMIENTO -> "🟠";
-                case CERRADA -> "🔴";
+            String estadoStr = switch (a.getEstado()) {
+                case ACTIVA -> "ACTIVA";
+                case EN_MANTENIMIENTO -> "MANTENIMIENTO";
+                case CERRADA -> "CERRADA";
             };
             String zonaNombre = a.getZona() != null ? a.getZona().getNombre() : "Sin zona";
             listaAtraccionesAdmin.getItems().add(String.format(
-                "%s %s | %s | %s | Visitantes: %d | Espera: %d min",
-                estadoEmoji, a.getNombre(), a.getTipo(), zonaNombre,
+                "[%s] %s | %s | %s | Visitantes: %d | Espera: %d min",
+                estadoStr, a.getNombre(), a.getTipo(), zonaNombre,
                 a.getContadorVisitantes(), a.getTiempoEsperaEstimado()));
         }
     }
 
-    // ============ GESTIÓN DE OPERADORES ============
     private void cargarOperadores() {
         selectorOperador.getItems().addAll(dataService.getOperadores());
         selectorOperador.setCellFactory(lv -> new ListCell<>() {
@@ -184,20 +173,20 @@ public class AdminController {
         actualizarListaOperadores();
         actualizarListaZonas();
         
-        mostrarAlerta("✅ " + operador.getNombre() + " asignado a " + zona.getNombre());
+        mostrarAlerta(operador.getNombre() + " asignado a " + zona.getNombre());
     }
 
     private void actualizarListaOperadores() {
         listaOperadoresAdmin.getItems().clear();
         for (Operador o : dataService.getOperadores()) {
             String zonaNombre = o.getZona() != null ? o.getZona().getNombre() : "Sin zona";
-            listaOperadoresAdmin.getItems().add("🔧 " + o.getNombre() + " → " + zonaNombre);
+            listaOperadoresAdmin.getItems().add(o.getNombre() + " -> " + zonaNombre);
         }
     }
 
-    // ============ ALERTAS CLIMÁTICAS ============
     private void cargarTiposAlerta() {
         selectorAlerta.getItems().addAll(TipoAlerta.values());
+        actualizarListaAlertas();
     }
 
     @FXML
@@ -208,67 +197,78 @@ public class AdminController {
             return;
         }
         
-        // Determinar qué atracciones se ven afectadas
         List<Atraccion> afectadas = new ArrayList<>();
         for (Atraccion a : dataService.getAtracciones()) {
-            boolean debeCerrar = false;
-            
-            switch (tipo) {
-                case LLUVIA_FUERTE -> {
-                    if (a.getTipo() == TipoAtraccion.ACUATICA) debeCerrar = true;
-                }
-                case TORMENTA_ELECTRICA -> {
-                    if (a.getTipo() == TipoAtraccion.ACUATICA || 
-                        a.getTipo() == TipoAtraccion.MECANICA_ALTURA) debeCerrar = true;
-                }
-                case OTRO -> debeCerrar = false;
-            }
+            boolean debeCerrar = switch (tipo) {
+                case LLUVIA_FUERTE -> a.getTipo() == TipoAtraccion.ACUATICA;
+                case TORMENTA_ELECTRICA -> a.getTipo() == TipoAtraccion.ACUATICA || 
+                                           a.getTipo() == TipoAtraccion.MECANICA_ALTURA;
+                case OTRO -> false;
+            };
             
             if (debeCerrar && a.getEstado() == EstadoAtraccion.ACTIVA) {
-                a.cambiarEstado(EstadoAtraccion.CERRADA, MotivosCierre.CLIMA);
                 afectadas.add(a);
             }
         }
         
-        // Mostrar resultado
-        listaAtraccionesAfectadas.getItems().clear();
         if (afectadas.isEmpty()) {
-            listaAtraccionesAfectadas.getItems().add("✅ Ninguna atracción activa fue afectada.");
-        } else {
-            for (Atraccion a : afectadas) {
-                listaAtraccionesAfectadas.getItems().add("🔴 " + a.getNombre() + " → CERRADA por " + tipo);
-            }
+            mostrarAlerta("No hay atracciones activas que cerrar.");
+            return;
         }
         
-        adminActual.activarAlertaClimatica(tipo);
+        adminActual.activarAlertaClimatica(tipo, afectadas);
+        dataService.agregarAlerta(new AlertaClimatica(
+            "ALERTA_" + System.currentTimeMillis(), tipo, java.time.LocalDateTime.now(), afectadas));
         dataService.guardarDatos();
+        
         actualizarListaAtracciones();
+        actualizarListaAlertas();
         actualizarEstadisticas();
         
-        mostrarAlerta("⚠ Alerta '" + tipo + "' activada.\n" + afectadas.size() + 
-                     " atracciones cerradas automáticamente.");
+        mostrarAlerta("Alerta activada. " + afectadas.size() + " atracciones cerradas.");
     }
 
     @FXML
     public void desactivarAlerta() {
-        // Reactivar todas las atracciones que están cerradas por clima
-        int reactivadas = 0;
-        for (Atraccion a : dataService.getAtracciones()) {
-            if (a.getEstado() == EstadoAtraccion.CERRADA && 
-                a.getMotivoCierre() == MotivosCierre.CLIMA) {
-                a.cambiarEstado(EstadoAtraccion.ACTIVA, null);
-                reactivadas++;
-            }
+        if (dataService.getAlertasActivas().isEmpty()) {
+            mostrarAlerta("No hay alertas activas.");
+            return;
         }
         
-        dataService.guardarDatos();
-        actualizarListaAtracciones();
-        actualizarEstadisticas();
+        ChoiceDialog<AlertaClimatica> dialog = new ChoiceDialog<>(
+            dataService.getAlertasActivas().get(0),
+            dataService.getAlertasActivas()
+        );
+        dialog.setTitle("Desactivar Alerta");
+        dialog.setHeaderText("Selecciona la alerta:");
+        dialog.setContentText("Alerta:");
         
+        dialog.showAndWait().ifPresent(alerta -> {
+            dataService.desactivarAlerta(alerta);
+            dataService.guardarDatos();
+            
+            actualizarListaAtracciones();
+            actualizarListaAlertas();
+            actualizarEstadisticas();
+            
+            mostrarAlerta("Alerta desactivada.");
+        });
+    }
+
+    private void actualizarListaAlertas() {
         listaAtraccionesAfectadas.getItems().clear();
-        listaAtraccionesAfectadas.getItems().add("Alerta desactivada. " + reactivadas + " atracciones reactivadas.");
         
-        mostrarAlerta("lerta climática desactivada.\n" + reactivadas + " atracciones han sido reactivadas.");
+        if (dataService.getAlertasActivas().isEmpty()) {
+            listaAtraccionesAfectadas.getItems().add("No hay alertas activas.");
+        } else {
+            for (AlertaClimatica alerta : dataService.getAlertasActivas()) {
+                String estado = alerta.isActiva() ? "ACTIVA" : "INACTIVA";
+                listaAtraccionesAfectadas.getItems().add(estado + " " + alerta.getTipo());
+                for (Atraccion a : alerta.getAtraccionesAfectadas()) {
+                    listaAtraccionesAfectadas.getItems().add("   - " + a.getNombre());
+                }
+            }
+        }
     }
 
     private void mostrarAlerta(String mensaje) {

@@ -25,11 +25,12 @@ public class ParkDataService {
     private final Map<String, Operador> operadores = new HashMap<>();
     private final Map<String, Administrador> administradores = new HashMap<>();
     private final Grafo<Atraccion> grafo = new Grafo<>();
+    private final List<AlertaClimatica> alertasActivas = new ArrayList<>();
 
-/**
- * Carga todos los datos desde el archivo data.json.
- */
-public void cargarDatos() {
+    /**
+     * Caga todos los datos desde el archivo data.json.
+     */
+    public void cargarDatos() {
         // LIMPIAR estructuras antes de cargar
         atracciones.clear();
         zonas.clear();
@@ -384,6 +385,24 @@ public void cargarDatos() {
             visitantes.put(v.getId(), v);
         }
     }
+
+
+public void agregarAlerta(AlertaClimatica alerta) {
+    if (alerta != null) {
+        alertasActivas.add(alerta);
+    }
+}
+
+public List<AlertaClimatica> getAlertasActivas() {
+    return alertasActivas;
+}
+
+public void desactivarAlerta(AlertaClimatica alerta) {
+    if (alerta != null && alerta.isActiva()) {
+        alerta.desactivar();
+        alertasActivas.remove(alerta);
+    }
+}
 
     // Getters
     public List<Atraccion> getAtracciones() { return new ArrayList<>(atracciones.values()); }

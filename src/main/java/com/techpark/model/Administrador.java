@@ -1,5 +1,9 @@
 package com.techpark.model;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.techpark.datastructures.*;
 
 public class Administrador extends Usuario {
@@ -30,11 +34,26 @@ public class Administrador extends Usuario {
         zona.asignarOperador(operador);
      }
 
-    public void activarAlertaClimatica(TipoAlerta tipo) {
+    /**
+     * Activa una alerta climática y cierra las atracciones afectadas.
+     * @param tipo tipo de alerta
+     * @param atracciones lista de atracciones a cerrar
+     * @return la alerta creada
+     */
+    public AlertaClimatica activarAlertaClimatica(TipoAlerta tipo, List<Atraccion> atracciones) {
         if (tipo == null) {
             throw new IllegalArgumentException("El tipo de alerta no puede ser nulo.");
         }
-        System.out.println("Alerta climática activada: " + tipo);
+        
+        AlertaClimatica alerta = new AlertaClimatica(
+            "ALERTA_" + System.currentTimeMillis(),
+            tipo,
+            LocalDateTime.now(),
+            atracciones
+        );
+        alerta.activar();
+        System.out.println("Alerta climática activada: " + tipo + " - " + atracciones.size() + " atracciones cerradas.");
+        return alerta;
     }
 
     public Reporte generarReporteDiario() {
