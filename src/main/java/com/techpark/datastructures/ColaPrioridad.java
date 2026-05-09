@@ -1,5 +1,8 @@
 package com.techpark.datastructures;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Estructura de cola con dos niveles de prioridad.
  * Prioridad alta (Fast-Pass) se atiende antes que prioridad normal (General).
@@ -70,5 +73,15 @@ public class ColaPrioridad<T> {
             if (elemento.equals(items.get(i))) return i + 1;
         }
         return -1;
+    }
+    /**
+     * Convierte la cola completa a una lista de Java.
+     * @return lista con todos los elementos en orden de prioridad
+     */
+    public List<T> aLista() {
+        List<T> resultado = new ArrayList<>();
+        resultado.addAll(prioridadAlta.aLista());
+        resultado.addAll(prioridadNormal.aLista());
+        return resultado;
     }
 }

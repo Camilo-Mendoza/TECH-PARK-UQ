@@ -2,90 +2,73 @@ package com.techpark.model;
 
 public class Operador extends Usuario {
     private Zona zona;
-     // Constructor
+
     public Operador(String id, String nombre, String email, String contrasena, Zona zona) {
         super(id, nombre, email, contrasena);
         this.zona = zona;
     }
+
     // Getters y Setters
     public Zona getZona() {
-        return zona;
-    }
-
+         return zona; 
+        }
     public void setZona(Zona zona) {
-        this.zona = zona;
-    }
+         this.zona = zona; 
+        }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    // Se actualiza el estado de la atracción y, si es necesario, se asigna un motivo de cierre
+    /**
+     * Cambia el estado de una atracción con su motivo de cierre.
+     * Requisito PDF: Control de Acceso y Gestión de Estado.
+     */
     public void gestionarEstadoAtraccion(Atraccion atraccion, EstadoAtraccion estado, MotivosCierre motivo) {
         if (atraccion == null || estado == null) {
             throw new IllegalArgumentException("Atraccion y estado no pueden ser nulos.");
         }
-
-        atraccion.setEstado(estado);
-
-        if (motivo != null) {
-            atraccion.setMotivoCierre(motivo);
-        }
+        atraccion.cambiarEstado(estado, motivo);
     }
 
-    // Se registra una revisión técnica en la atracción, lo que puede incluir la actualización de su estado si se detectan problemas durante la revisión.
+    /**
+     * Registra una revisión técnica satisfactoria.
+     * Reinicia el contador y reactiva la atracción.
+     * Requisito PDF: Mantenimiento preventivo al alcanzar 500 visitantes.
+     */
     public void registrarRevisionTecnica(Atraccion atraccion) {
         if (atraccion == null) {
             throw new IllegalArgumentException("Atraccion no puede ser nula.");
         }
-
         atraccion.registrarRevisionTecnica();
     }
 
-    // Se procesa al siguiente visitante en la fila de una atracción, lo que implica verificar su ticket, actualizar su ubicación y gestionar su acceso a la atracción.
+    /**
+     * Procesa al siguiente visitante en la cola de la atracción.
+     * Requisito PDF: Atención Prioritaria (Fast-Pass primero).
+     */
     public Visitante procesarSiguienteEnFila(Atraccion atraccion) {
         if (atraccion == null) {
             throw new IllegalArgumentException("Atraccion no puede ser nula.");
         }
-
         return atraccion.procesarSiguienteEnFila();
     }
 
-    // Se valida el acceso de un visitante a una atracción, lo que implica verificar si cumple con los requisitos de edad, estatura y otros criterios establecidos para esa atracción.
+    /**
+     * Valida si un visitante cumple requisitos de acceso.
+     * Requisito PDF: Control de Acceso - altura, edad.
+     */
     public boolean validarAcceso(Visitante visitante, Atraccion atraccion) {
         if (visitante == null || atraccion == null) {
             throw new IllegalArgumentException("Visitante y atracción no pueden ser nulos.");
         }
-
         return atraccion.validarAcceso(visitante);
+    }
+
+    /**
+     * Verifica si hay capacidad disponible en el ciclo actual.
+     * Requisito PDF: Control de Acceso - capacidad por ciclo.
+     */
+    public boolean hayCapacidadDisponible(Atraccion atraccion) {
+        if (atraccion == null) return false;
+        int enCola = atraccion.getCola() != null ? atraccion.getCola().tamano() : 0;
+        return enCola < atraccion.getCapacidadMaxPorCiclo();
     }
 
     @Override
@@ -93,5 +76,3 @@ public class Operador extends Usuario {
         System.out.println("Operador " + nombre + " ha cerrado sesión.");
     }
 }
-
-

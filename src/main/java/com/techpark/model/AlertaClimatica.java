@@ -61,6 +61,51 @@ public class AlertaClimatica {
         this.atraccionesAfectadas = atraccionesAfectadas != null ? atraccionesAfectadas : new ArrayList<>();
     }
 
+    /**
+     * Obtiene los visitantes que deben ser notificados.
+     * Incluye visitantes en cola de las atracciones afectadas.
+     * Requisito PDF: notificar a visitantes con tickets activos o reservas en cola.
+     */
+    public List<Visitante> obtenerVisitantesParaNotificar() {
+        List<Visitante> visitantes = new ArrayList<>();
+        for (Atraccion a : atraccionesAfectadas) {
+            if (a.getCola() != null && !a.getCola().estaVacia()) {
+                for (Visitante v : a.getCola().aLista()) {
+                    if (!visitantes.contains(v)) {
+                        visitantes.add(v);
+                    }
+                }
+            }
+        }
+        return visitantes;
+    }
+
+    /**
+     * Genera mensajes de notificación para cada visitante afectado.
+     * Requisito PDF: notificar cambios en el estado de las atracciones.
+     */
+    public List<Notificacion> generarNotificaciones() {
+        List<Notificacion> notificaciones = new ArrayList<>();
+        List<Visitante> afectados = obtenerVisitantesParaNotificar();
+        
+        for (Visitante v : afectados) {
+            String mensaje = "Alerta " + tipo + ": Las siguientes atracciones han sido cerradas: ";
+            for (Atraccion a : atraccionesAfectadas) {
+                mensaje += a.getNombre() + ", ";
+            }
+            mensaje = mensaje.substring(0, mensaje.length() - 2);
+            
+            Notificacion n = new Notificacion(
+                "NOT_" + System.currentTimeMillis() + "_" + v.getId(),
+                mensaje,
+                LocalDateTime.now(),
+                v
+            );
+            notificaciones.add(n);
+        }
+        return notificaciones;
+    }
+
     @Override
     public String toString() {
         return (activa ? "🔴 " : "🟢 ") + tipo + " - " + 
