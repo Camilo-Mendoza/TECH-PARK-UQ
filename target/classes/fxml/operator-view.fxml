@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="16.0" style="-fx-padding: 20; -fx-background-color: #f1f5f9;">
+
+    <Label text="Panel del Operador"
+           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+
+    <!-- Info del operador -->
+    <HBox spacing="16" style="-fx-background-color: white; -fx-padding: 16; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+        <VBox spacing="6">
+            <Label fx:id="lblOperadorNombre" text="Operador: —" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+            <Label fx:id="lblOperadorZona" text="Zona asignada: —"/>
+        </VBox>
+    </HBox>
+
+    <!-- Atracciones de la zona -->
+    <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 16; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+        <Label text="🎢 Atracciones de tu zona" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+        <ComboBox fx:id="selectorAtraccion" promptText="Selecciona una atracción" prefWidth="300"/>
+        
+        <!-- Estado actual -->
+        <Label fx:id="lblEstadoActual" text="Estado actual: —"
+               style="-fx-font-size: 13px; -fx-text-fill: #475569;"/>
+        <Label fx:id="lblContadorVisitantes" text="Visitantes acumulados: —"
+               style="-fx-font-size: 13px; -fx-text-fill: #475569;"/>
+        <Label fx:id="lblColaVirtual" text="Personas en cola: —"
+               style="-fx-font-size: 13px; -fx-text-fill: #475569;"/>
+
+        <!-- Botones de acción -->
+        <HBox spacing="12" style="-fx-alignment: center-left;">
+            <Button text="🔄 Cambiar Estado" onAction="#cambiarEstado"
+                    style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
+            <Button text="🔧 Registrar Revisión Técnica" onAction="#registrarRevision"
+                    style="-fx-background-color: #16a34a; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
+            <Button text="▶ Procesar Siguiente" onAction="#procesarSiguiente"
+                    style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-cursor: hand; -fx-padding: 8 16; -fx-background-radius: 6;"/>
+        </HBox>
+    </VBox>
+
+    <!-- Historial de acciones -->
+    <VBox spacing="10" VBox.vgrow="ALWAYS"
+          style="-fx-background-color: white; -fx-padding: 16; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+        <Label text="📋 Registro de Actividades" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+        <ListView fx:id="listaActividades" prefHeight="200"/>
+    </VBox>
+
+</VBox>

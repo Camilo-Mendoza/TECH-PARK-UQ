@@ -205,10 +205,6 @@ public void cargarDatos() {
         guardarDatos();
     }
 
-        /**
-     * Guarda todos los datos actuales en el archivo data.json,
-     * incluyendo favoritos de visitantes, estado de atracciones, etc.
-     */
     public void guardarDatos() {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -382,6 +378,13 @@ public void cargarDatos() {
             e.printStackTrace();
         }
     }
+    
+    public void agregarVisitante(Visitante v) {
+        if (v != null) {
+            visitantes.put(v.getId(), v);
+        }
+    }
+
     // Getters
     public List<Atraccion> getAtracciones() { return new ArrayList<>(atracciones.values()); }
     public List<Zona> getZonas() { return new ArrayList<>(zonas.values()); }

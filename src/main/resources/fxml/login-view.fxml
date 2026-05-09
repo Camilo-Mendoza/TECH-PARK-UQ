@@ -54,13 +54,18 @@
         <Button text="Iniciar Sesión" onAction="#iniciarSesion"
                 maxWidth="Infinity"
                 style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-padding: 12; -fx-background-radius: 6; -fx-cursor: hand;"/>
-    </VBox>
+
+        <!-- Botón de registro -->
+        <Button text="Crear Cuenta" onAction="#mostrarRegistro"
+                maxWidth="Infinity"
+                style="-fx-background-color: transparent; -fx-text-fill: #2563eb; -fx-font-size: 13px; -fx-padding: 8; -fx-background-radius: 6; -fx-cursor: hand; -fx-border-color: #2563eb; -fx-border-radius: 6;"/>
+        </VBox>
 
     <!-- Datos de prueba -->
     <VBox spacing="4" style="-fx-background-color: #fef3c7; -fx-padding: 12; -fx-background-radius: 8; -fx-border-color: #f59e0b; -fx-border-radius: 8;">
         <Label text=" Datos de prueba:" style="-fx-font-weight: bold; -fx-text-fill: #92400e; -fx-font-size: 12px;"/>
-        <Label text="Visitante: carlos@email.com / 1234" style="-fx-text-fill: #78350f; -fx-font-size: 11px;"/>
-        <Label text="Operador: juan@techpark.com / op123" style="-fx-text-fill: #78350f; -fx-font-size: 11px;"/>
+        <Label text="Visitante: nely@gmail.com / 1234" style="-fx-text-fill: #78350f; -fx-font-size: 11px;"/>
+        <Label text="Operador: dbfan@techpark.com / op123" style="-fx-text-fill: #78350f; -fx-font-size: 11px;"/>
         <Label text="Admin: admin@techpark.com / admin123" style="-fx-text-fill: #78350f; -fx-font-size: 11px;"/>
     </VBox>
 </VBox>

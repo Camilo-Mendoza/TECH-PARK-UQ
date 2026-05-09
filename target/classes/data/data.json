@@ -131,19 +131,14 @@
   ],
   "conexiones": [
     {
-      "origen": 5,
-      "destino": 6,
-      "peso": 7
-    },
-    {
-      "origen": 6,
-      "destino": 7,
-      "peso": 3
-    },
-    {
       "origen": 3,
       "destino": 6,
       "peso": 6
+    },
+    {
+      "origen": 5,
+      "destino": 6,
+      "peso": 7
     },
     {
       "origen": 2,
@@ -169,29 +164,48 @@
       "origen": 4,
       "destino": 5,
       "peso": 2
+    },
+    {
+      "origen": 6,
+      "destino": 7,
+      "peso": 3
     }
   ],
   "visitantes": [
     {
-      "id": "V002",
-      "nombre": "María López",
-      "email": "maria@email.com",
+      "id": "V003",
+      "nombre": "Fernely Ortiz",
+      "email": "nely@gmail.com",
       "contrasena": "1234",
-      "edad": 32,
-      "estatura": 1.62,
-      "saldoVirtual": 30000.0,
+      "edad": 18,
+      "estatura": 1.77,
+      "saldoVirtual": 80000.0,
       "tipoTicket": "GENERAL",
+      "favoritos": [
+        "Carrusel Mágico",
+        "Torre Cóndor"
+      ]
+    },
+    {
+      "id": "V002",
+      "nombre": "Esteban Polanco",
+      "email": "nte@gmail.com",
+      "contrasena": "1234",
+      "edad": 19,
+      "estatura": 1.9,
+      "saldoVirtual": 100000.0,
+      "tipoTicket": "FAST_PASS",
       "favoritos": []
     },
     {
       "id": "V001",
-      "nombre": "Carlos Pérez",
+      "nombre": "Cheche",
       "email": "carlos@email.com",
       "contrasena": "1234",
       "edad": 25,
       "estatura": 1.75,
       "saldoVirtual": 50000.0,
-      "tipoTicket": "FAST_PASS",
+      "tipoTicket": "FAMILIAR",
       "favoritos": [
         "Torre Cóndor"
       ]
@@ -200,8 +214,15 @@
   "operadores": [
     {
       "id": "O001",
-      "nombre": "Juan Operador",
-      "email": "juan@techpark.com",
+      "nombre": "Nicolas Operador",
+      "email": "dbfan@techpark.com",
+      "contrasena": "op123",
+      "zonaId": 1
+    },
+    {
+      "id": "O002",
+      "nombre": "Murcia Operador",
+      "email": "sucia@techpark.com",
       "contrasena": "op123",
       "zonaId": 1
     }
@@ -209,7 +230,7 @@
   "administradores": [
     {
       "id": "A001",
-      "nombre": "Admin Principal",
+      "nombre": "Camilo",
       "email": "admin@techpark.com",
       "contrasena": "admin123"
     }
